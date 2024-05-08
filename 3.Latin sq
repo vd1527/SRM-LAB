@@ -1,0 +1,17 @@
+def latin_square(n):
+    grid = [[0] * n for _ in range(n)]  # Create an empty n x n grid
+
+    for i in range(n):
+        for j in range(n):
+            for num in range(1, n + 1):
+                if num not in grid[i] and all(row[j] != num for row in grid):
+                    grid[i][j] = num
+                    break
+
+    return grid
+
+# Test the function
+n = 4  # Size of the Latin square
+print("Latin Square:")
+for row in latin_square(n):
+    print(row)
