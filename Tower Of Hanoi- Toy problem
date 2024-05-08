@@ -1,0 +1,13 @@
+def move_tower(height, source, target, auxiliary):
+    if height > 0:
+        move_tower(height - 1, source, auxiliary, target)
+        move_disk(source, target)
+        move_tower(height - 1, auxiliary, target, source)
+
+def move_disk(source, target):
+    print("Move disk from", source, "to", target)
+
+# Test the function
+height = 3
+print("Steps to solve Towers of Hanoi:")
+move_tower(height, 'A', 'C', 'B')
