@@ -1,0 +1,47 @@
+class VacuumCleanerAgent:
+    def __init__(self, environment):
+        self.environment = environment  # Initialize the environment
+        self.position = 0  # Starting position of the vacuum cleaner
+    
+    def clean(self):
+        # Main cleaning loop
+        while self.environment.has_dirty_spots():
+            # Check if the current position is dirty
+            if self.environment.is_dirty(self.position):
+                self.clean_spot()  # If dirty, clean the spot
+            else:
+                self.move_to_next_dirty_spot()  # If not dirty, move to the next dirty spot
+
+    def clean_spot(self):
+        print(f"Cleaning spot {self.position}")
+        self.environment.clean_spot(self.position)  # Clean the current spot
+        # Mark the current spot as clean in the environment
+    
+    def move_to_next_dirty_spot(self):
+        # Get the positions of all dirty spots in the environment
+        dirty_spots = self.environment.get_dirty_spots()
+        # Choose the next position with the most dirt
+        self.position = max(dirty_spots, key=lambda spot: dirty_spots[spot])
+        print(f"Moving to spot {self.position}")
+
+class VacuumCleanerEnvironment:
+    def __init__(self, num_spots):
+        # Initialize the environment with a specified number of spots
+        self.dirty_spots = {spot: True for spot in range(num_spots)}
+    
+    def has_dirty_spots(self):
+        # Check if there are any dirty spots remaining in the environment
+        return any(self.dirty_spots.values())
+    
+    def is_dirty(self, spot):
+        # Check if a specific spot in the environment is dirty
+        return self.dirty_spots[spot]
+    
+    def clean_spot(self, spot):
+        # Clean a specific spot in the environment
+        self.dirty_spots[spot] = False  # Mark the spot as clean
+    
+    def get_dirty_spots(self):
+        # Get the positions and dirtiness level of all dirty spots in the environment
+        return {spot: dirtiness for spot, dirtiness in self.dirty_spots.items() if dirtiness}
+
