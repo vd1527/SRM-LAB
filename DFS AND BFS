@@ -1,0 +1,42 @@
+def dfs(maze, start, end):
+    stack = [(start, [start])]  # Initialize a stack with the start cell and its path
+    visited = set()  # Initialize a set to keep track of visited cells
+
+    while stack:
+        (x, y), path = stack.pop()  # Pop the top cell and its path from the stack
+
+        if (x, y) == end:  # If the current cell is the destination, return the path
+            return path
+
+        if 0 <= x < len(maze) and 0 <= y < len(maze[0]) and maze[x][y] == 0 and (x, y) not in visited:
+            visited.add((x, y))  # Mark the current cell as visited
+
+            # Explore neighboring cells (right, down, left, up)
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                stack.append(((x + dx, y + dy), path + [(x + dx, y + dy)]))  # Push neighboring cell and its path onto the stack
+
+    return None  # If the destination is not reachable, return None
+
+
+
+
+from collections import deque
+
+def bfs(maze, start, end):
+    queue = deque([(start, [start])])  # Initialize a queue with the start cell and its path
+    visited = set()  # Initialize a set to keep track of visited cells
+
+    while queue:
+        (x, y), path = queue.popleft()  # Dequeue the front cell and its path from the queue
+
+        if (x, y) == end:  # If the current cell is the destination, return the path
+            return path
+
+        if 0 <= x < len(maze) and 0 <= y < len(maze[0]) and maze[x][y] == 0 and (x, y) not in visited:
+            visited.add((x, y))  # Mark the current cell as visited
+
+            # Explore neighboring cells (right, down, left, up)
+            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+                queue.append(((x + dx, y + dy), path + [(x + dx, y + dy)]))  # Enqueue neighboring cell and its path
+
+    return None  # If the destination is not reachable, return None
