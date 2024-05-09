@@ -1,0 +1,47 @@
+
+from queue import PriorityQueue
+
+def bestfs(maze, start, end, heuristic):
+    queue = PriorityQueue()
+    queue.put((heuristic(start, end), start))
+    visited = set()
+
+    while not queue.empty():
+        _, current = queue.get()
+        if current == end:
+            return current
+        visited.add(current)
+        for neighbor in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            new_cell = (current[0] + neighbor[0], current[1] + neighbor[1])
+            if 0 <= new_cell[0] < len(maze) and 0 <= new_cell[1] < len(maze[0]) and maze[new_cell[0]][new_cell[1]] == 0 and new_cell not in visited:
+                queue.put((heuristic(new_cell, end), new_cell))
+                visited.add(new_cell)
+    return None
+
+
+
+
+
+
+    from queue import PriorityQueue
+
+def astar(maze, start, end, heuristic):
+    queue = PriorityQueue()
+    queue.put((0, start))
+    visited = set()
+    costs = {start: 0}
+
+    while not queue.empty():
+        cost, current = queue.get()
+        if current == end:
+            return current
+        visited.add(current)
+        for neighbor in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            new_cell = (current[0] + neighbor[0], current[1] + neighbor[1])
+            new_cost = costs[current] + 1
+            if 0 <= new_cell[0] < len(maze) and 0 <= new_cell[1] < len(maze[0]) and maze[new_cell[0]][new_cell[1]] == 0 and (new_cell not in costs or new_cost < costs[new_cell]):
+                costs[new_cell] = new_cost
+                priority = new_cost + heuristic(new_cell, end)
+                queue.put((priority, new_cell))
+    return None
+
